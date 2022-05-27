@@ -1,0 +1,32 @@
+енд поинт докер реестра
+https://kopilka.ga:4443/
+
+церт до 27 июля, авторефреш для апача есть, для надо копировать освеженный церт в путь для использования в докере, в конфиге пути:
+
+Запуск  у меня свой докер:
+
+  
+  или docker start 7ac13c5992bf
+  
+Сертификат не включает :4443 поэтому добавим докеру который в кубере доверия мне)):
+На мастер ноде у яндекса:
+mkdir -p /etc/docker/certs.d/kopilka.ga:4443/
+
+закинем сертификат с Копилки:
+pixel@kopilka:~$ scp -i .ssh/id_rsa /etc/docker/certs.d/kopilka.ga:4443/ca.crt ubuntu@51.250.76.111:/home/ubuntu/
+
+на мастер ноде:
+ mkdir -p /etc/docker/certs.d/kopilka.ga:4443/
+ 
+выполнить такое на всех нодах кластера
+ 
+ 
+проверка: 
+ root@master-1:/home/ubuntu# docker pull kopilka.ga:4443/kopilka-diplom-app
+Status: Downloaded newer image for kopilka.ga:4443/kopilka-diplom-app:latest
+kopilka.ga:4443/kopilka-diplom-app:latest
+
+kebect apply -f app.yaml
+
+kubectl expose deployment frontend --namespace production --type=LoadBalancer --name=frontend-svc --port 8080
+kubectl patch svc front-svc --namespace prod  -p '{"spec":{"externalIPs":["51.250.29.120"]}}'

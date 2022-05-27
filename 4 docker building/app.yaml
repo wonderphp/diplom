@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+   name: prod
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+  namespace: prod
+  labels:
+    app: front
+spec:
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+
+    spec:
+      containers:
+      - name: front
+        image: kopilka.ga:4443/kopilka-diplom-app
+        imagePullPolicy: "Always"
+    ports:
+      - containerPort: 8080
+          protocol: TCP
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: front-svc
+  namespace: prod
+spec:
+  type: LoadBalancer
+  selector:
+   app: fron
+  ports:
+    - name: sentiment
+      protocol: TCP
+      port: 8080
+      targetPort: containerport

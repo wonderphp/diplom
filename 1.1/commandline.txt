@@ -1,0 +1,8 @@
+ansible-playbook -u ubuntu -i inventory/kopilkacluster cluster.yaml -b -v --private-key ~/15.2/pubkey.pem.pub -kK
+
+token: AQAAAABexI8IAATuwf6cHcyiZk6PnUUuRlQLQKI
+cloud-id: b1ga11l1jrpvppcda5dc
+folder-id: b1g1e417rlclna6nbfk6
+compute-default-zone: ru-central1-b
+
+~/diplom-kube/kubespray_terraform_yandex_cloud/cluster_install.sh
